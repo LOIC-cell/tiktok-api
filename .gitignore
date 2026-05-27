@@ -1,4 +1,7 @@
-__pycache__/
-*.pyc
+node_modules/
 .env
 tmp/
+uploads/
+*.log
+__pycache__/
+*.pyc
