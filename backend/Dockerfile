@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y ffmpeg --no-install-recommends \
 
 WORKDIR /app
 
+RUN echo "cache-bust-v2"
+
 COPY package.json ./
 RUN npm install --omit=dev
 
