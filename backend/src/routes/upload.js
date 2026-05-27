@@ -36,7 +36,7 @@ const upload = multer({
 });
 
 // POST /api/upload
-router.post('/', upload.single('video'), async (req, res, next) => {
+router.post('/', upload.single('file'), async (req, res, next) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No video file provided' });
