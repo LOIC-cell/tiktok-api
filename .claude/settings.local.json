@@ -3,7 +3,9 @@
     "allow": [
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(dir \"C:\\\\Users\\\\mougi\\\\Desktop\\\\tiktok-api\")",
+      "Bash(rm -rf \"C:\\\\Users\\\\mougi\\\\Desktop\\\\tiktok-api\\\\backend/.git\")"
     ]
   }
 }
