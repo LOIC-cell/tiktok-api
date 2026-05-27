@@ -13,21 +13,14 @@ if (!fs.existsSync(uploadDir)) {
 const router = express.Router();
 
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => {
-      cb(null, `${uuidv4()}-${file.originalname}`);
-    },
-  }),
+  dest: '/tmp/uploads/',
   limits: { fileSize: 2 * 1024 * 1024 * 1024 },
 });
 
 // POST /api/upload
-router.post('/', upload.single('file'), async (req, res, next) => {
+router.post('/', upload.any(), async (req, res, next) => {
   try {
-    const file = req.file;
+    const file = req.files[0];
     if (!file) {
       return res.status(400).json({ error: 'No video file provided' });
     }
