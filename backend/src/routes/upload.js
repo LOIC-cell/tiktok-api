@@ -1,20 +1,33 @@
 const express = require('express');
 const multer = require('multer');
+const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const { getProcessingQueue } = require('../services/videoProcessor');
 const storageService = require('../services/storageService');
 
+const uploadDir = process.env.UPLOAD_DIR || '/tmp/uploads';
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 const router = express.Router();
 
 const upload = multer({
-  dest: '/tmp/uploads/',
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+      cb(null, `${uuidv4()}-${file.originalname}`);
+    },
+  }),
   limits: { fileSize: 2 * 1024 * 1024 * 1024 },
 });
 
 // POST /api/upload
-router.post('/', upload.any(), async (req, res, next) => {
+router.post('/', upload.single('file'), async (req, res, next) => {
   try {
-    const file = req.files[0];
+    const file = req.file;
     if (!file) {
       return res.status(400).json({ error: 'No video file provided' });
     }
